@@ -1,0 +1,143 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Demo Route Estimation Service",
+    "version": "1.0.0"
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "estimation-demo.dev.checkbox.ru",
+  "basePath": "/",
+  "paths": {
+    "estimations": {
+      "post": {
+        "summary": "Create a new estimation",
+        "description": "Estimation ID is assigned automatically on creation.",
+        "operationId": "createEstimation",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/EstimationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/definitions/Estimation"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/responses/ServerError"
+          }
+        }
+      }
+    },
+    "estimations/{id}": {
+      "get": {
+        "summary": "Return calculated estimation",
+        "description": "Estimation should be requested with ID received from \"createEstimation\" operation.\nCalculation takes time, if not yet ready, returns HTTP 425.\n",
+        "operationId": "getEstimation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/definitions/Estimation"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "425": {
+            "$ref": "#/responses/TooEarly"
+          },
+          "500": {
+            "$ref": "#/responses/ServerError"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Point": {
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "number",
+          "format": "double"
+        },
+        "lng": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "EstimationRequest": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "$ref": "#/definitions/Point"
+        },
+        "to": {
+          "$ref": "#/definitions/Point"
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ]
+    },
+    "Estimation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "from": {
+          "$ref": "#/definitions/Point"
+        },
+        "to": {
+          "$ref": "#/definitions/Point"
+        },
+        "duration": {
+          "type": "number",
+          "format": "double",
+          "title": "Route duration (in seconds)"
+        },
+        "distance": {
+          "type": "number",
+          "format": "double",
+          "title": "Route distance (in meters)"
+        }
+      },
+      "required": [
+        "id",
+        "from",
+        "to"
+      ]
+    }
+  },
+  "responses": {
+    "BadRequest": {
+      "description": "Bad request."
+    },
+    "NotFound": {
+      "description": "Not found."
+    },
+    "TooEarly": {
+      "description": "Too early."
+    },
+    "ServerError": {
+      "description": "Server error."
+    }
+  }
+}

@@ -23,7 +23,7 @@ class SearchEstimationBloc extends Cubit<SearchEstimationState>{
 
       if (result.isSuccessful) {
         Estimation estimation = Estimation.fromJsonFactory(result.body);
-        this.emit(SuccessStateSearchEstimation(estimation: EstimationHistory(
+        this.emit(SuccessStateSearchEstimation(estimation: LatLng(
           id: estimation.id,
           distance: Format.getDistance(estimation.distance),
           duration: Format.getTime(estimation.duration),

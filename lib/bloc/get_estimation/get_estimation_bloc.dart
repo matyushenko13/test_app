@@ -29,7 +29,7 @@ class GetEstimationBloc extends Cubit<GetEstimationState>{
 
       if (result.isSuccessful) {
         Estimation estimation = Estimation.fromJsonFactory(result.body);
-        this.emit(SuccessStateGetEstimation(estimation: EstimationHistory(
+        this.emit(SuccessStateGetEstimation(estimation: LatLng(
           id: estimation.id,
           delay: 10,
         )));

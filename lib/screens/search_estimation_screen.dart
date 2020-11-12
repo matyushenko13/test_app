@@ -12,7 +12,7 @@ import 'package:test_app_checkbox/generated_code/example_swagger.swagger.dart';
 import 'package:test_app_checkbox/utils/app_strings.dart';
 
 class SearchEstimationScreen extends StatefulWidget{
-  final EstimationHistory estimation;
+  final LatLng estimation;
   SearchEstimationScreen({this.estimation});
 
   @override

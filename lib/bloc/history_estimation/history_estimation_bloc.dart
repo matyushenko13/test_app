@@ -7,11 +7,11 @@ import 'package:test_app_checkbox/generated_code/example_swagger.swagger.dart';
 import 'package:test_app_checkbox/tools/format.dart';
 
 
-class HistoryEstimationBloc extends Cubit<List<EstimationHistory>>{
+class HistoryEstimationBloc extends Cubit<List<LatLng>>{
   HistoryEstimationBloc() : super(List());
 
   void update({
-  @required EstimationHistory estimation,
+  @required LatLng estimation,
   }) async {
     if(estimation != null) {
       int index = state.indexWhere((element) => element.id == estimation.id && (element.distance != estimation.distance || element.duration != estimation.duration));
@@ -34,7 +34,7 @@ class HistoryEstimationBloc extends Cubit<List<EstimationHistory>>{
     }
   }
 
-  void _timer(EstimationHistory estimation){
+  void _timer(LatLng estimation){
     Timer.periodic(Duration(seconds: 1), (timer) {
       estimation.delay -= 1;
       this.emit(List.generate(state.length, (index) => state.elementAt(index)));
@@ -45,14 +45,14 @@ class HistoryEstimationBloc extends Cubit<List<EstimationHistory>>{
     });
   }
 
-  void _getEstimation(EstimationHistory estimation) async{
+  void _getEstimation(LatLng estimation) async{
     final client = ExampleSwagger.create();
 
     final result = await client.getEstimation(id: estimation.id);
 
     if (result.isSuccessful) {
       Estimation estimation = Estimation.fromJsonFactory(result.body);
-      update(estimation: EstimationHistory(
+      update(estimation: LatLng(
         id: estimation.id,
         distance: Format.getDistance(estimation.distance),
         duration: Format.getTime(estimation.duration),

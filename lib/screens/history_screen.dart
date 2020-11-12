@@ -11,7 +11,7 @@ class HistoryScreen extends StatelessWidget{
         appBar: AppBar(
             title: Text(AppStrings.historyScreen),
         ),
-        body: BlocBuilder<HistoryEstimationBloc, List<EstimationHistory>>(
+        body: BlocBuilder<HistoryEstimationBloc, List<LatLng>>(
           builder: (context, state) {
             if(state.isEmpty){
               return Padding(

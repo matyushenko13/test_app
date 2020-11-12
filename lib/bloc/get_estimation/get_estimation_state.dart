@@ -18,7 +18,7 @@ class WaitingStateGetEstimation extends GetEstimationState{
 }
 
 class SuccessStateGetEstimation extends GetEstimationState{
-  EstimationHistory estimation;
+  LatLng estimation;
   SuccessStateGetEstimation({@required this.estimation});
 
   @override

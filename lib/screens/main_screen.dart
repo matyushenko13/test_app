@@ -9,6 +9,7 @@ import 'package:test_app_checkbox/components/error_dialog.dart';
 import 'package:test_app_checkbox/components/history_button.dart';
 import 'package:test_app_checkbox/components/search_button.dart';
 import 'package:test_app_checkbox/utils/app_strings.dart';
+import 'package:latlong/latlong.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -71,6 +72,11 @@ class _MainScreenState extends State<MainScreen> {
               controller: _fromController,
               hintText: AppStrings.hintLatLng,
               textInputAction: TextInputAction.next,
+              onPressedIcon: () => Navigator.of(context).pushNamed('/map').then((value) {
+                if(value is LatLng){
+                  _fromController.text = '${value.latitude.toStringAsFixed(6)}, ${value.longitude.toStringAsFixed(6)}';
+                }
+              }),
               onSubmitted: (_) => FocusScope.of(context).requestFocus(_toNode),
             ),
             Container(
@@ -83,6 +89,11 @@ class _MainScreenState extends State<MainScreen> {
               controller: _toController,
               focusNode: _toNode,
               hintText: AppStrings.hintLatLng,
+              onPressedIcon: () => Navigator.of(context).pushNamed('/map').then((value) {
+                if(value is LatLng){
+                  _toController.text = '${value.latitude.toStringAsFixed(6)}, ${value.longitude.toStringAsFixed(6)}';
+                }
+              }),
             ),
             Padding(
               padding: EdgeInsets.only(top: 16),
@@ -97,7 +108,10 @@ class _MainScreenState extends State<MainScreen> {
                     child: Text(
                       AppStrings.submit,
                     ),
-                    onPressed: () => _getEstimationBloc.submit(from: _fromController.text, to: _toController.text),
+                    onPressed: () {
+                      SystemChannels.textInput.invokeMethod('TextInput.hide');
+                      _getEstimationBloc.submit(from: _fromController.text, to: _toController.text);
+                    },
                   );
                 },
                 listenWhen: (previous, current) => current is SuccessStateGetEstimation || current is ErrorStateGetEstimation ? true : false,

@@ -21,4 +21,5 @@ class AppStrings{
   static const String errorParse = 'Coordinates entered incorrectly.';
   static const String errorSearch = 'Index is empty.';
   static const String errorHistoryIsEmpty = 'History is empty.';
+  static const String errorPermission = 'You have denied access to geolocation.';
 }

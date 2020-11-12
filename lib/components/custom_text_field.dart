@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hintText;
@@ -8,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final Function onSubmitted;
   final Function onChanged;
+  final Function onPressedIcon;
   final double verticalPadding;
   final double horizontalPadding;
 
@@ -22,6 +24,7 @@ class CustomTextField extends StatelessWidget {
     @required this.controller,
     this.onSubmitted,
     this.onChanged,
+    this.onPressedIcon
   }) : super(key: key);
 
   @override
@@ -29,6 +32,15 @@ class CustomTextField extends StatelessWidget {
     return TextField(
         focusNode: focusNode ?? FocusNode(),
         decoration: InputDecoration(
+            suffixIcon: onPressedIcon != null ? IconButton(
+              icon: Icon(Icons.map),
+              tooltip: 'Map',
+              color: Colors.blue,
+              onPressed: () {
+                SystemChannels.textInput.invokeMethod('TextInput.hide');
+                onPressedIcon();
+              },
+            ) : null,
           border: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.grey,

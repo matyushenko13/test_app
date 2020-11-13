@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class LatLng{
+class LatLng {
   String id;
   String duration;
   String distance;
